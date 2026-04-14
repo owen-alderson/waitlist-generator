@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Acme — Shared field notes for small research teams</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --accent: #c9a84c;
+      --bg: #0a0a0f;
+      --surface: #13131a;
+      --border: #1e1e2e;
+      --text: #f0f0f5;
+      --subtext: #8888aa;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Nav ── */
+    nav {
+      padding: 20px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+    }
+    .logo { font-size: 1.1rem; font-weight: 700; letter-spacing: -.02em; }
+    .logo span { color: var(--accent); }
+    .nav-tag {
+      font-size: .75rem; font-weight: 600;
+      background: color-mix(in srgb, var(--accent) 15%, transparent);
+      color: var(--accent);
+      border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+      padding: 4px 12px; border-radius: 999px;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 80px 24px 60px;
+    }
+
+    .badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: .8rem; font-weight: 600;
+      color: var(--accent);
+      background: color-mix(in srgb, var(--accent) 10%, transparent);
+      border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
+      padding: 5px 14px; border-radius: 999px;
+      margin-bottom: 28px;
+    }
+
+    h1 {
+      font-size: clamp(2.2rem, 6vw, 4rem);
+      font-weight: 800;
+      letter-spacing: -.04em;
+      line-height: 1.1;
+      max-width: 700px;
+      margin-bottom: 20px;
+    }
+    h1 em {
+      font-style: normal;
+      background: linear-gradient(135deg, var(--accent), color-mix(in srgb, var(--accent) 60%, white));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .tagline {
+      font-size: 1.15rem;
+      color: var(--subtext);
+      max-width: 520px;
+      line-height: 1.6;
+      margin-bottom: 48px;
+    }
+
+    /* ── Form ── */
+    .form-wrap {
+      display: flex;
+      gap: 10px;
+      max-width: 460px;
+      width: 100%;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .form-wrap input {
+      flex: 1;
+      min-width: 220px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text);
+      padding: 13px 16px;
+      font-size: .95rem;
+      outline: none;
+      transition: border-color .15s;
+    }
+    .form-wrap input:focus { border-color: var(--accent); }
+    .form-wrap input::placeholder { color: var(--subtext); }
+
+    .cta-btn {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 13px 24px;
+      font-size: .95rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity .15s, transform .1s;
+      white-space: nowrap;
+    }
+    .cta-btn:hover { opacity: .9; transform: translateY(-1px); }
+    .cta-btn:active { transform: translateY(0); }
+
+    .form-note {
+      font-size: .8rem;
+      color: var(--subtext);
+      margin-bottom: 64px;
+    }
+
+    /* ── Value props ── */
+    .props {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      max-width: 720px;
+      width: 100%;
+    }
+    @media (max-width: 600px) { .props { grid-template-columns: 1fr; } }
+
+    .prop {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px;
+      text-align: left;
+    }
+    .prop-icon {
+      font-size: 1.4rem;
+      margin-bottom: 10px;
+    }
+    .prop-title {
+      font-size: .9rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .prop-desc {
+      font-size: .82rem;
+      color: var(--subtext);
+      line-height: 1.5;
+    }
+
+    /* ── Footer ── */
+    footer {
+      padding: 20px 40px;
+      border-top: 1px solid var(--border);
+      font-size: .8rem;
+      color: var(--subtext);
+      text-align: center;
+    }
+
+    /* ── Success state ── */
+    .success {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      padding: 16px 24px;
+      background: color-mix(in srgb, var(--accent) 10%, transparent);
+      border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+      border-radius: 12px;
+      margin-bottom: 64px;
+      max-width: 400px;
+      text-align: center;
+    }
+    .success .check { font-size: 1.8rem; }
+    .success p { font-size: .9rem; color: var(--subtext); }
+    .success strong { color: var(--text); }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="logo">✦ <span>Acme</span></div>
+    <div class="nav-tag">Early Access</div>
+  </nav>
+
+  <main class="hero">
+    <div class="badge">✦ Now accepting early members</div>
+
+    <h1>Shared field notes for <em>small research teams</em></h1>
+    <p class="tagline">Shared field notes for small research teams</p>
+
+    <div class="form-wrap" id="form-wrap">
+      <input type="email" id="email-input" placeholder="Enter your email" />
+      <button class="cta-btn" onclick="handleSubmit()">Request Access</button>
+    </div>
+
+    <div class="success" id="success-box">
+      <div class="check">✓</div>
+      <p><strong>You're on the list.</strong><br />We'll be in touch when access opens.</p>
+    </div>
+
+    <p class="form-note" id="form-note">No spam. Unsubscribe anytime.</p>
+
+    <div class="props">
+            <div class="prop">
+        <div class="prop-icon">⚡</div>
+        <div class="prop-title">Shared notebooks</div>
+        <div class="prop-desc">Every note, photo and sample in one place</div>
+      </div>      <div class="prop">
+        <div class="prop-icon">🎯</div>
+        <div class="prop-title">Works offline</div>
+        <div class="prop-desc">Record in the field, sync when you're back</div>
+      </div>      <div class="prop">
+        <div class="prop-icon">🔒</div>
+        <div class="prop-title">Built for teams</div>
+        <div class="prop-desc">Invite your whole lab on the free plan</div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    © 2026 Acme &nbsp;·&nbsp; Built with <a href="https://github.com/owen-alderson/waitlist-generator" style="color:var(--accent);text-decoration:none">waitlist-generator</a>
+  </footer>
+
+  <script>
+    function handleSubmit() {
+      const email = document.getElementById('email-input').value.trim();
+      if (!email || !email.includes('@')) {
+        document.getElementById('email-input').style.borderColor = '#f87171';
+        return;
+      }
+      document.getElementById('form-wrap').style.display = 'none';
+      document.getElementById('form-note').style.display = 'none';
+      const box = document.getElementById('success-box');
+      box.style.display = 'flex';
+      // Log to console so you can wire up a real backend later
+      console.log('Waitlist signup:', email);
+    }
+    document.getElementById('email-input').addEventListener('keydown', e => {
+      if (e.key === 'Enter') handleSubmit();
+    });
+  </script>
+
+</body>
+</html>
