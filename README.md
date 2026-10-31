@@ -13,7 +13,7 @@ python3 generate.py
 Answer the prompts:
 
 ```
-  Startup name [Acme]: Acme
+  Startup name [Tidepool]: Tidepool
   One-liner tagline: Shared field notes for small research teams
   CTA button text [Request Access]: Request Access
   Accent color (hex) [#4f8ef7]: #c9a84c
@@ -53,7 +53,7 @@ Your page is live at `https://yourusername.github.io/repo-name`.
 
 ## Example
 
-See [`example/index.html`](example/index.html) for an Acme-branded demo page (gold accent, dark theme).
+See [`example/index.html`](example/index.html) for a demo page for a made-up startup, Tidepool (gold accent, dark theme).
 
 ## No dependencies
 

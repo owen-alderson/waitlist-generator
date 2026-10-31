@@ -346,7 +346,7 @@ def main():
     print("\n  ✦  Waitlist Page Generator\n")
     print("  Answer a few questions — your page will be ready in seconds.\n")
 
-    name    = prompt("Startup name", "Acme")
+    name    = prompt("Startup name", "Tidepool")
     tagline = prompt("One-liner tagline", "Shared field notes for small research teams")
     cta     = prompt("CTA button text", "Request Access")
     accent  = prompt("Accent color (hex)", DEFAULT_ACCENT)
